@@ -1,0 +1,62 @@
+{% load static %}
+
+{%  if comments|length == 0 %}
+    <h3 class="h2 mb-4 mb-md-5 text-center">Aucun commentaire</h3>
+{% elif comments|length == 1 %}
+    <h3 class="h2 mb-4 mb-md-5 text-center">1 Commentaire</h3>
+{% else %}
+    <h3 class="h2 mb-4 mb-md-5 text-center">{{ comments|length }} Commentaires</h3>
+{% endif %}
+            <ul class="article-comments mb-4 mb-sm-5">
+                {% for comment in comments %}
+                <li>
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                  <div class="d-flex align-items-center">
+                    <img src="{{ comment.user.profile_picture.url }}" alt="Abigail T" class="avatar avatar-xs">
+                    <div class="h6 mb-0 ml-2 text-primary-3">{{ comment.user.username|capfirst }}</div>
+                  </div>
+                  <div class="text-small text-muted">{{ comment.published_date|date }}</div>
+                </div>
+                <div>
+                    <h6 class="lead">{{ comment.title }}</h6>
+                  <p> {{ comment.body }}</p>
+                </div>
+                    {% if request.user.is_authenticated and comment.user.username == request.user.username  %}
+                        <a href="{{ comment.get_update_item }}" class="badge badge-pill badge-primary">Modifier </a>
+                        <a href="{{ comment.get_delete_item }}" class="badge badge-pill badge-danger">  Supprimer  </a>
+                {% endif %}
+              </li>
+                    <hr>
+                {% endfor %}
+
+
+            </ul>
+
+            {% if request.user.is_authenticated %}
+            <h4 class="h3 mb-4 text-center">Laisser un commentaire</h4>
+            <form method="POST">
+            {% csrf_token %}
+              <div class="form-row">
+                <div class="col-sm">
+                  <div class="form-group">
+                    {{ form.title }}
+                  </div>
+                </div>
+                <div class="col-sm">
+                  <div class="form-group">
+                    {{ form.email }}
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                {{ form.body }}
+              </div>
+              <div class="d-flex justify-content-end">
+                <button class="btn btn-outline-primary" type="submit">Ajouter commentaire</button>
+              </div>
+            </form>
+            {% else %}
+                <h4 class="h3 mb-4">Laisser un commentaire</h4>
+                <a href="{% url 'accounts:login' %}" class="btn btn-outline-primary">Connectez-vous</a>
+
+            {% endif %}

@@ -1,0 +1,61 @@
+{% load static %}
+
+<div class="row justify-content-center mt-4">
+          <div class="col-auto">
+            <nav>
+             {% if pg.has_other_pages %}
+              <ul class="pagination">
+                  {% if pg.has_previous %}
+                <li class="page-item">
+                  <a class="page-link rounded" href="?page={{ pg.previous_page_number }}" aria-label="Previous">
+                    <img src="{% static 'img/icons/interface/icon-arrow-left.svg' %}" alt="Arrow Left" class="icon icon-xs bg-primary" data-inject-svg>
+                  </a>
+                </li>
+              {% endif %}
+
+              {% for i in pg.paginator.page_range %}
+                {% if pg.number == i %}
+                <li class="page-item active"><a class="page-link" href="#">{{ i }}</a>
+                </li>
+              {% else %}
+                <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a>
+                </li>
+              {% endif %}
+                {% endfor %}
+
+              {% if pg.has_next %}
+                <li class="page-item">
+                  <a class="page-link rounded" href="?page={{ pg.next_page_number }}" aria-label="Next">
+                    <img src="{% static 'img/icons/interface/icon-arrow-right.svg' %}" alt="Arrow Right" class="icon icon-xs bg-primary" data-inject-svg>
+                  </a>
+                </li>
+              {% endif %}
+              </ul>
+            {% endif %}
+            </nav>
+          </div>
+        </div>
+
+
+{# {% if pg.has_other_pages %}#}
+{#  <ul class="pagination">#}
+{#    {% if pg.has_previous %}#}
+{#      <li><a href="?page={{ pg.previous_page_number }}">&laquo;</a></li>#}
+{#    {% else %}#}
+{#      <li class="disabled"><span>&laquo;</span></li>#}
+{#    {% endif %}#}
+{#    {% for i in pg.paginator.page_range %}#}
+{#      {% if pg.number == i %}#}
+{#        <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>#}
+{#      {% else %}#}
+{#        <li><a href="?page={{ i }}">{{ i }}</a></li>#}
+{#      {% endif %}#}
+{#    {% endfor %}#}
+{#    {% if pg.has_next %}#}
+{#      <li><a href="?page={{ pg.next_page_number }}">&raquo;</a></li>#}
+{#    {% else %}#}
+{#      <li class="disabled"><span>&raquo;</span></li>#}
+{#    {% endif %}#}
+{#  </ul>#}
+{#{% endif %}#}
+

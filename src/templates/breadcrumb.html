@@ -1,0 +1,13 @@
+{# Vérifier si il est nécessaire de passer la variable post dans le template #}
+
+<div class="mt-4 mt-sm-5 border-top pt-5 d-none d-sm-block">
+              <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-0">
+                  <li class="breadcrumb-item"><a href="{% url 'index' %}">Blog</a>
+                  </li>
+                  <li class="breadcrumb-item"><a href="{{ post.get_category_items }}">{{ post.category|capfirst }}</a>
+                  </li>
+                  <li class="breadcrumb-item">{{ post.title|truncatewords:5 }}</li>
+                </ol>
+              </nav>
+            </div>

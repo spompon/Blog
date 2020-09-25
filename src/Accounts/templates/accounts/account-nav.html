@@ -1,0 +1,46 @@
+{% load static %}
+
+{# Début du header blanc #}
+    <section class="pb-5">
+      <div class="container">
+        <div class="row mb-5">
+          <div class="col d-flex align-items-center">
+            <div class="d-inline-block p-3 p-md-4 rounded-circle bg-primary-alt">
+              <img src="{% static 'img/icons/theme/general/settings-1.svg' %}" alt="Confirmation Icon" class="icon bg-primary" data-inject-svg="data-inject-svg">
+            </div>
+            <div class="ml-4">
+              <h1 class="mb-2">Mon Compte</h1>
+              <div class="lead">Gérez votre profil et vos préférences de notification.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+{# Fin du header blanc #}
+
+
+ {# Début de la navigation Tab #}
+    <div class="bg-white">
+      <div class="container">
+        <div class="row">
+          <div class="col">
+            <ul class="nav">
+              <li class="nav-item">
+                <a class="nav-link {% if request.path == '/accounts/profile/edit/' %} text-primary-3 {% endif %}" href="{% url 'accounts:edit-profile' %}">Profil</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link {% if request.path == '/accounts/password/change/' %} text-primary-3 {% endif %}" href="{% url 'accounts:change-password' %}">Sécurité</a>
+              </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Favoris</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Notifications</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    {# Fin de la navigation Tab #}

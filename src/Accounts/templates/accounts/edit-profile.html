@@ -1,0 +1,151 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block header %}
+{{ title }}
+{% endblock header %}
+
+{% block content %}
+
+    {% include 'loader.html' %}
+    {% include 'navbar.html' %}
+
+     {% if messages %}
+        {% for message in messages %}
+        {% include 'messages.html' with message_var=message %}
+        {% endfor %}
+    {% endif %}
+
+
+   {% include "accounts/account-nav.html" with link_path=page %} {#  Navigation du member account #}
+
+
+
+    {#  Début edit profile #}
+    <section class="bg-light tab-content pt-5">
+      <div class="tab-pane fade show active">
+        <div class="container">
+          <div class="row mb-4 mb-lg-5">
+            <div class="col">
+              <div class="d-flex align-items-md-center">
+                <img src="{{ member.profile_picture.url }}" alt="Avatar" class="avatar avatar-lg flex-shrink-0">
+                <div class="ml-4">
+                    <form method="POST" enctype="multipart/form-data">
+                  {% csrf_token %}
+                        <h4>Modifier Image</h4>
+                    {{ form.profile_picture }}
+
+{#                  <button class="btn btn-sm btn-primary">Modifier photo</button>#}
+
+                  <div class="text-small mt-3">Pour un rendu optimal, une image d'au moins 256px par 256px au format .jpg ou .png est conseillé</div>
+                </div>
+              </div>
+              <hr class="mt-lg-5">
+            </div>
+          </div>
+          <div class="row mb-4 mb-md-5 align-items-start">
+            <div class="col-lg-4 order-lg-2 mb-4 mb-lg-0 sticky-lg-top pl-lg-5">
+              <div class="alert alert-primary">Vos informations sont toujours cryptées et ne peuvent jamais être consultées par des tiers.
+                <a href="#">Consultez notre politique de confidentialité</a>
+              </div>
+            </div>
+            <div class="col-lg-8 border-lg-right pr-lg-5">
+              <div class="row mb-lg-5">
+                <div class="col">
+                  <h3>Détails du compte</h3>
+                </div>
+              </div>
+
+                <div class="row form-row">
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label for="first-name">{{ form.first_name.label }}</label>
+                        {{ form.first_name }}
+                    </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label for="last-name">{{ form.last_name.label }}</label>
+                        {{ form.last_name }}
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="#">{{ form.username.label }}</label>
+                    {{ form.username }}
+                  <small>Si vous souhaitez modifier votre nom d'utilisateur. Merci de nous contacter</small>
+                </div>
+                <div class="form-group">
+                  <label for="email">{{ form.email.label }}</label>
+                    {{ form.email }}
+                </div>
+
+            </div>
+          </div>
+          <hr class="mb-4 mb-md-5">
+          <div class="row mb-4 mb-md-5 align-items-start">
+            <div class="col-lg-4 order-lg-2 mb-4 mb-lg-0 sticky-lg-top pl-lg-5">
+              <div class="alert alert-primary">Certaines de ces informations apparaîtront sur votre profil public. Un profil public détaillé aide les utilisateurs ayant des intérêts personels ou professionnels similaires aux votre à vous contacter.
+                <a href="#">Affichez votre profil public</a>
+              </div>
+            </div>
+            <div class="col-lg-8 border-lg-right pr-lg-5">
+              <div class="row mb-lg-5">
+                <div class="col">
+                  <h3>Informations sur le profil</h3>
+                </div>
+              </div>
+
+                <div class="row form-row">
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label for="{{ form.city.field.widget.attrs.id }}">{{ form.city.label }}</label>
+                      {{ form.city}}
+                    </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label for="country">{{ form.country.label }}</label>
+                        {{ form.country }}
+                    </div>
+                  </div>
+                </div>
+                <div class="row form-row">
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label for="birthday">{{ form.birth_date.label }}</label>
+                        {{ form.birth_date }}
+                      <small>Ne sera jamais rendu public</small>
+                    </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label for="{{ form.website.field.widget.attrs.id }}">{{ form.website.label }}</label>
+                      {{ form.website }}
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="bio">{{ form.bio.label }}</label>
+                    {{ form.bio }}
+                </div>
+                <button class="btn btn-primary"  type="submit">Sauvegarder</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+    {#  Fin edit profile #}
+
+
+   {% include 'footer.html' %}
+
+    <a href="#top" class="btn btn-primary rounded-circle btn-back-to-top" data-smooth-scroll data-aos="fade-up" data-aos-offset="2000" data-aos-mirror="true" data-aos-once="false">
+      <img src="{% static 'img/icons/interface/icon-arrow-up.svg' %}" alt="Icon" class="icon bg-white" data-inject-svg>
+    </a>
+
+
+{% endblock content %}

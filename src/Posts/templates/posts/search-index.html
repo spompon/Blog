@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+{% load static %}
+{#{%  load humanize %}#}
+{%  load custom_tags %}
+
+
+
+{% block header %}
+{{ title }}
+{% endblock header %}
+
+
+{% block content %}
+{% include 'loader.html' %}
+{% include 'navbar-dark.html' %}
+
+
+    <div data-overlay class="bg-primary-3 text-white o-hidden">
+      <section>
+        <div class="container">
+          <div class="row justify-content-center">
+            <div class="col-xl-8 col-lg-9 text-center">
+              <h1 class="display-3">Tous les articles</h1>
+              <div class="lead">Vous recherchez un article en particulier ? Trouvez le facilement</div>
+              <form method="GET" action="{% url 'search' %}" class="mt-5 d-flex flex-column flex-md-row form-group">
+
+                <input class="form-control form-control-lg h-100 mb-2 mb-md-0 mr-md-3" name="q" placeholder="Que cherchez-vous ?" type="search">
+                <button class="btn btn-lg btn-primary" type="submit">Rechercher</button>
+              </form>
+              <div class="d-flex flex-wrap align-items-center justify-content-center">
+                <div class="text-small mb-2 mb-sm-0 mr-2">Catégories populaires:</div>
+                <ul class="d-flex flex-wrap list-unstyled mb-0">
+                    {% for category in categories %}
+                    <li class="m-1">
+                    <a class="badge badge-pill badge-white" href="{{ category.get_category_list }}">{{ category.name }}</a>
+                  </li>
+                    {% endfor %}
+
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+{#        <div class="position-absolute w-50 h-75 bottom right" data-jarallax-element="100">#}
+{#          <div class="blob blob-4 bg-gradient w-100 h-100 bottom right"></div>#}
+{#        </div>#}
+      </section>
+      <div class="divider divider-bottom bg-light"></div>
+    </div>
+    <section class="bg-light">
+      <div class="container">
+        <div class="row justify-content-between align-items-start">
+          <div class="col-lg-8">
+            <a href="{% url 'search' %}">Voir tous les articles</a>
+            <h2 class="h1 mt-4">
+                {% if queryset|length == 0 %}
+                    Aucun article ne correspond à votre recherche
+                {% elif queryset|length == 1 %}
+                    {{ queryset|length }} article à découvrir
+                {% else %}
+                    {{ queryset|length }} articles à découvrir
+                {% endif %}
+            </h2>
+{#            <div class="lead">Everything you need to know about payments and billing.</div>#}
+            <hr class="my-md-4 my-lg-5">
+
+              {% for post in queryset %}
+                <div class="mb-3 mb-sm-4">
+              <a href="{{ post.get_absolute_url }}" class="card card-body hover-box-shadow">
+                <h4>{{ post.title }}</h4>
+                <p>{{ post.body|truncatewords:10 }}</p>
+                <div class="d-flex align-items-center">
+                  <img src="{{ post.author.profile_picture.url  }}" alt="avatar" class="avatar avatar-sm">
+                  <div class="text-small ml-3">
+                    <div>Posté par
+                      <strong>{{ post.author.username|capfirst }}</strong>
+                    </div>
+                    <div>{{ post.published_date|date }}</div>
+                  </div>
+                </div>
+              </a>
+            </div>
+              {% endfor %}
+          </div>
+
+
+          <div class="col sticky-lg-top">
+            <div class="pl-xl-4">
+              <ul class="list-group">
+                <li class="list-group-item">
+                  <h6 class="mb-2">Contactez-moi</h6>
+                  <a href="mailto:spompon@free.fr">spompon@free.fr</a>
+                </li>
+
+
+              </ul>
+              <a href="#" class="btn btn-primary btn-block mt-3 mt-md-4">Laisser un message</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+{% include 'footer.html' %}
+
+    <a href="#top" class="btn btn-primary rounded-circle btn-back-to-top" data-smooth-scroll data-aos="fade-up" data-aos-offset="2000" data-aos-mirror="true" data-aos-once="false">
+      <img src="{% static 'img/icons/interface/icon-arrow-up.svg' %}" alt="Icon" class="icon bg-white" data-inject-svg>
+    </a>
+
+{% endblock content %}

@@ -1,0 +1,18 @@
+<!doctype html>
+{% load static %}
+<html lang="fr">
+
+{% include 'head.html' with  title_var=title  %} {# On injecte la variable title fournie par views.py #}
+
+<body>
+
+
+{% block content %}
+
+
+{% endblock content %}
+
+{% include 'scripts.html' %}
+  </body>
+</html>
+

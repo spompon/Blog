@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% load static %}
+{#{%  load humanize %}#}
+{%  load custom_tags %}
+
+
+
+{% block header %}
+{{ title }}
+{% endblock header %}
+
+{% block content %}
+
+    {% include 'loader.html' %}
+    {% include 'navbar.html' %}
+{#   {% include 'messages.html' %}#}
+
+    {% if request.get_full_path  == '/'  or request.get_full_path == '/?page=1' %}
+     {% include 'posts/featured.html' with  featured_posts_var=featured_posts  star_post_var=star_post %} {# On injecte la variable title fournie par views.py #}
+    {% endif %}
+
+
+    <section class="bg-light py-4">
+      <div class="container">
+        <div class="row">
+          <div class="col">
+
+
+        {% for post in pg %}
+
+            <div class="mb-4 mb-md-5" data-aos="fade-up">
+              <div class="d-flex flex-column flex-lg-row no-gutters border rounded bg-white o-hidden">
+                <a href="{{ post.get_absolute_url }}" class="d-block position-relative bg-gradient col-xl-5">
+                  <img class="flex-fill hover-fade-out" src="{{ post.picture.url }}" alt="{{ post.alt_picture }}">
+                  <div class="divider divider-side bg-white d-none d-lg-block"></div>
+                </a>
+                <div class="p-4 p-md-5 col-xl-7 d-flex align-items-center">
+                  <div class="p-lg-4 p-xl-5">
+                    <div class="d-flex justify-content-between align-items-center mb-3 mb-xl-4">
+{#                        {% if post.category.name == 'lifestyle' %}#}
+{#                        <a href="#" class="badge badge-pill badge-danger">{{ post.category|capfirst }}</a>#}
+{#                        {% else %}#}
+                        <a href="{{ post.get_category_items }}" class="badge badge-pill badge-primary-3">{{ post.category|capfirst }}</a>
+{#                        {% endif %}#}
+
+                      <div class="text-small text-muted">{{ post.published_date|post_date}}</div>
+
+                    </div>
+                    <a href="{{ post.get_absolute_url }}">
+                      <h1>{{ post.title }}</h1>
+                    </a>
+                    <p class="lead">
+                    {{ post.body|truncatewords:20 }}
+                    </p>
+                    <a href="{{ post.get_absolute_url }}" class="lead">Découvrir</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+        {% endfor %}
+
+          </div>
+        </div>
+
+        {% include 'pagination.html'  with  pg=pg  %}
+
+
+      </div>
+    </section>
+
+    {% include 'newsletter.html' %}
+
+
+   {% include 'footer.html' %}
+
+
+{% endblock content %}
+

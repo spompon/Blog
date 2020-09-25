@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load static %}
+{#{%  load humanize %}#}
+{%  load custom_tags %}
+
+
+
+{% block header %}
+{{ title }}
+{% endblock header %}
+
+
+{% block content %}
+
+{% include 'loader.html' %}
+{% include 'navbar.html' %}
+
+
+    <section class="bg-primary-3 text-white">
+      <div class="container">
+        <div class="row section-title justify-content-center text-center">
+          <div class="col-md-9 col-lg-8 col-xl-7">
+            <h1 class="display-3">{{ title|capfirst  }}</h1>
+            <div class="lead">Retrouvez l'ensemble des articles publiés dans la catégorie {{ title|capfirst  }}</div>
+{#            <div class="lead">Il y a {{ posts|length }} articles disponibles</div>#}
+          </div>
+        </div>
+
+        <div class="row justify-content-center">
+            {% for post in pg %}
+
+            <div class="col-xl-5 col-lg-9 col-md-10 mb-3 mb-sm-5" data-aos="fade-up" data-offset="200">
+            <div class="card card-body hover-box-shadow bg-white">
+{#              <img src="{{ post.author.profile_picture.url }}" alt="profile image" class="avatar mt-md-n5 mb-3">#}
+              <div>
+                <div class="text-muted mb-3">{{ post.published_date|date }}</div>
+                <a href="{{ post.get_absolute_url }}">
+                  <h3 class="h2">{{ post.title|truncatewords:10 }}</h3>
+                </a>
+                <p>
+                  {{ post.body|truncatewords:20 }}
+                </p>
+                <a href="{{ post.get_absolute_url }}" class="stretched-link">Découvrir</a>
+              </div>
+            </div>
+          </div>
+            {% endfor %}
+        </div>
+
+{% include 'pagination.html'  with  pg=pg  %}
+      </div>
+    </section>
+
+
+
+    <a href="#top" class="btn btn-primary rounded-circle btn-back-to-top" data-smooth-scroll data-aos="fade-up" data-aos-offset="2000" data-aos-mirror="true" data-aos-once="false">
+      <img src="{% static 'img/icons/interface/icon-arrow-up.svg' %}" alt="Icon" class="icon bg-white" data-inject-svg>
+    </a>
+
+{% endblock content %}
+
